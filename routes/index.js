@@ -1,4 +1,5 @@
 import express from "express"
+import fs from "fs"
 const router = express.Router()
 
 router.get("/", (req, res) => {
@@ -19,6 +20,14 @@ router.get("/about", (req, res) => {
 router.get("/greeting", (req, res) => {
     console.log(req.query)
     res.send(`Hejsan ${req.query.name}, ${req.query.message}`)
+})
+
+router.get("/movies", (req, res) => {
+    const {movies} = JSON.parse(fs.readFileSync("./data/movies.json"))
+    res.render("movies.njk", {
+        title: "Filmer",
+        movies: movies
+    })
 })
 
 export default router
